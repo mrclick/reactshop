@@ -39,7 +39,7 @@ export const Footer = () => {
       <div className="bottom">
           <div className="left">
             <span className="logo">LAMASTORE</span>
-            <span className="copyright">&#169;copyright 2022. All rights reserved.</span>
+            <span className="copyright">&#169; copyright 2022. All rights reserved.</span>
           </div>
           <div className="right">
             <img src="/img/payment.png" alt=""/>
