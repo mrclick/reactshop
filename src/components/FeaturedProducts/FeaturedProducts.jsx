@@ -1,32 +1,14 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 import Card from '../Card/Card';
 import "./FeaturedProducts.scss";
-import axios from "axios";
+import useFetch from '../../hooks/useFetch';
 
 export const FeaturedProducts = ({type}) => {
 
-    const [data, setData] = useState([]);
+    const { data, loading, error } = useFetch(`/products?populate=*&[filters][type][$eq]=${type}`);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await axios.get(
-                process.env.REACT_APP_API_URL + `/products?populate=*&[filters][type][$eq]=${type}`,
-                {
-                    headers: {
-                        Authorization: "bearer " + process.env.REACT_APP_API_TOKEN,
-                    },
-                }
-              );
-              setData(res.data.data)
-              
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        fetchData(); 
-    }, []);
-    console.log(data)
+    
+
   return (
     <div className='featuredProducts'>
         <div className="top">
@@ -38,10 +20,13 @@ export const FeaturedProducts = ({type}) => {
             </p>
         </div>
         <div className="bottom">
-            {data.map(item=>(
-                <Card item={item} key={item.id}/>
-            ))}
+            {error
+            ? "Something went wrong!"
+            : loading
+            ? "loading" 
+            : data?.map((item) => <Card item={item} key={item.id} /> )}
         </div>
     </div>
-  )
-}
+  );
+};
+
